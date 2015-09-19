@@ -1,0 +1,49 @@
+Start MPI by MPI_Init
+
+Calculate Rank and Size
+
+If ( Master Process )
+{
+Initialize and populate the Array
+Find the number of rows per process for which average needs to be calculated
+Calculate the start index and end index of the Array Chunks
+Send the respective chunks to the slave processes through NON BLOCKING send.
+Calculate the average for the first chunk parallely
+}//end of master process
+
+//For all Slave Processes
+Else
+{
+Initialize an array which will hold the chunk
+Calculate the start index and end index of the Array Chunks
+Use NON BLOCKING Receive to receive the rows of the chunk from the master process.
+Save the rows received in the array which will hold the chunk.
+Now parallely calculate the average of rows in the chunk by the following Algorithm
+/*
+Following while loop parallely calculates the average of different rows.
+Variable numberOfRowsToCalculateAverageOf contains the number of rows for which average has to be calculated.
+Variable noOfAveragesCalculated holds the number of averages which have been calculated so far.
+Array averageCalculatedFlagArray will have 0 for the indexes for which average has not been calculated.
+And it will contain -99 in the respective index for the row of which , average has been calculated.
+	
+	while(number of averages calculated is not equal to the number of rows in the chunk)
+	{
+		for (iterate i times where i is the number of rows in the chunk)
+		{
+         Test for the ith row if it has been successfully received.
+        if(row is received && average has not been calculated before)
+        {
+			Calculate Average;
+			Increment respective counters and set respective flags;
+        }//end of if
+		
+		}//end of for
+	}//end of while
+	
+*/
+
+
+}//end of slave processes
+
+
+End by MPI_Finalize.
